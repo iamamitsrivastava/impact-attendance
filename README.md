@@ -1,16 +1,69 @@
-# React + Vite
+Impact Attendance
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive Attendance Management Web Application built using React + Vite.
+This platform helps track attendance efficiently with shift-based attendance calculation, clean UI, authentication support, and modern dashboard experience.
 
-Currently, two official plugins are available:
+🚀 Features
+📅 Attendance Tracking System
+⏰ Shift-based Attendance Management
+📊 Attendance Percentage Calculation
+🔐 Authentication System
+🎨 Modern Responsive UI
+⚡ Fast Performance using Vite
+☁️ Supabase Integration
+📱 Mobile Responsive Design
+🔔 Real-time Feedback & Notifications
+🛠️ Tech Stack
+React.js
+Vite
+JavaScript (JSX)
+Tailwind CSS
+Supabase
+CSS3
+📂 Project Structure
+src/
+ ├── assets/
+ ├── lib/
+ ├── App.jsx
+ ├── App.css
+ ├── index.css
+ └── main.jsx
+⚙️ Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Clone the repository:
 
-## React Compiler
+git clone https://github.com/iamamitsrivastava/impact-attendance.git
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Go to project folder:
 
-## Expanding the ESLint configuration
+cd impact-attendance
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Install dependencies:
+
+npm install
+
+Start development server:
+
+npm run dev
+🌐 Deployment
+
+Deploy using GitHub Pages:
+
+npm run deploy
+📸 Screenshots
+
+Add your project screenshots here.
+
+📈 Future Improvements
+AI-based Attendance Analytics
+Admin Dashboard
+Student Management
+Cloud Database Optimization
+Attendance Reports Export
+Role-based Authentication
+👨‍💻 Developer
+
+Amit Srivastava
+
+GitHub:
+iamamitsrivastava GitHub
