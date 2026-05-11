@@ -106,11 +106,11 @@ const AttendancePredictor = ({ currentScore }) => {
         Select days to simulate absences during your impact period (May 4 – June 6). 
       </p>
 
-      <div className="calendars-container" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
+      <div className="calendars-container">
         <div className="month-section">
           <h4 style={{fontSize: '0.75rem', fontWeight: 800, marginBottom: '0.75rem'}}>May 2026</h4>
-          <div className="calendar-mini" style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px'}}>
-                        {['M','T','W','Th','F','S','Su'].map(d => <div key={d} className="cal-day-label" style={{fontSize: '0.6rem', textAlign: 'center'}}>{d}</div>)}
+          <div className="calendar-mini">
+            {['M','T','W','Th','F','S','Su'].map(d => <div key={d} className="cal-day-label" style={{fontSize: '0.6rem', textAlign: 'center', fontWeight: 700}}>{d}</div>)}
             {[...Array(4)].map((_, i) => <div key={`may-pad-${i}`} className="cal-day disabled"></div>)}
             {[...Array(31)].map((_, i) => {
               const day = i + 1;
@@ -121,7 +121,6 @@ const AttendancePredictor = ({ currentScore }) => {
                   key={dateKey} 
                   className={`cal-day ${!isWorking ? 'disabled' : ''} ${selectedDates.includes(dateKey) ? 'selected' : ''}`}
                   onClick={() => isWorking && toggleDate(dateKey)}
-                  style={{aspectRatio: '1', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px', cursor: isWorking ? 'pointer' : 'default', border: '1px solid #f1f5f9', background: selectedDates.includes(dateKey) ? '#ef4444' : 'white', color: selectedDates.includes(dateKey) ? 'white' : (isWorking ? 'black' : '#cbd5e1')}}
                 >
                   {day}
                 </div>
@@ -132,9 +131,9 @@ const AttendancePredictor = ({ currentScore }) => {
 
         <div className="month-section">
           <h4 style={{fontSize: '0.75rem', fontWeight: 800, marginBottom: '0.75rem'}}>June 2026</h4>
-          <div className="calendar-mini" style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px'}}>
-                        {['M','T','W','Th','F','S','Su'].map(d => <div key={d} className="cal-day-label" style={{fontSize: '0.6rem', textAlign: 'center'}}>{d}</div>)}
-            {[...Array(0)].map((_, i) => <div key={`june-pad-${i}`} className="cal-day disabled"></div>)}
+          <div className="calendar-mini">
+            {['M','T','W','Th','F','S','Su'].map(d => <div key={d} className="cal-day-label" style={{fontSize: '0.6rem', textAlign: 'center', fontWeight: 700}}>{d}</div>)}
+            {[Array(0)].map((_, i) => <div key={`june-pad-${i}`} className="cal-day disabled"></div>)}
             {[...Array(30)].map((_, i) => {
               const day = i + 1;
               const dateKey = `june-${day}`;
@@ -144,7 +143,6 @@ const AttendancePredictor = ({ currentScore }) => {
                   key={dateKey} 
                   className={`cal-day ${!isWorking ? 'disabled' : ''} ${selectedDates.includes(dateKey) ? 'selected' : ''}`}
                   onClick={() => isWorking && toggleDate(dateKey)}
-                  style={{aspectRatio: '1', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px', cursor: isWorking ? 'pointer' : 'default', border: '1px solid #f1f5f9', background: selectedDates.includes(dateKey) ? '#ef4444' : 'white', color: selectedDates.includes(dateKey) ? 'white' : (isWorking ? 'black' : '#cbd5e1')}}
                 >
                   {day}
                 </div>
@@ -154,7 +152,7 @@ const AttendancePredictor = ({ currentScore }) => {
         </div>
       </div>
 
-      <div className="predictor-result" style={{background: '#0f172a', color: 'white', padding: '1rem', borderRadius: '12px', display: 'flex', justifyContent: 'space-between'}}>
+      <div className="predictor-result">
         <div>
           <div style={{fontSize: '0.6rem', fontWeight: 700, color: '#94a3b8'}}>DROP</div>
           <div style={{fontSize: '1.25rem', fontWeight: 800, color: '#fca5a5'}}>-{drop}%</div>
@@ -392,13 +390,21 @@ const OverviewView = ({ userName, currentScore }) => (
         <h3 style={{fontWeight: 800, marginBottom: '1.5rem'}}>Quick Actions</h3>
         <div className="quick-grid" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
           {[
-            { icon: CalendarRange, label: 'Request Leave' },
-            { icon: Upload, label: 'Upload Doc' },
-            { icon: FileText, label: 'View Reports' },
-            { icon: HelpCircle, label: 'Get Support' }
+            { icon: CalendarRange, label: 'Request Leave', tab: 'leave-requests' },
+            { icon: Upload, label: 'Upload Doc', tab: 'documents' },
+            { icon: FileText, label: 'View Reports', tab: 'attendance' },
+            { icon: HelpCircle, label: 'Get Support', tab: null }
           ].map((action, i) => (
-            <div key={i} className="q-action-card" style={{padding: '1.5rem', borderRadius: '16px', background: '#f8fafc', border: '1px solid #f1f5f9', textAlign: 'center', cursor: 'pointer'}}>
-              <div style={{width: 40, height: 40, background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 0.75rem', color: 'var(--primary-color)', boxShadow: 'var(--shadow-sm)'}}>
+            <div 
+              key={i} 
+              className="q-action-card" 
+              onClick={() => {
+                if (action.tab) setActiveTab(action.tab);
+                else showToast('Support ticket system opening...', 'info');
+              }}
+              style={{padding: '1.5rem', borderRadius: '16px', background: '#f8fafc', border: '1px solid #f1f5f9', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s ease'}}
+            >
+              <div style={{width: 40, height: 40, background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 0.75rem', color: 'var(--primary)', boxShadow: 'var(--shadow-sm)'}}>
                 <action.icon size={20} />
               </div>
               <div style={{fontSize: '0.85rem', fontWeight: 700}}>{action.label}</div>
@@ -508,7 +514,7 @@ const AttendanceToggle = ({ current, onToggle }) => (
   </div>
 );
 
-const TimeTrackingView = ({ userName, shiftLogs }) => (
+const TimeTrackingView = ({ userName, shiftLogs, isClockedIn, onClockAction }) => (
   <div className="view-content">
     <div style={{marginBottom: '2.5rem'}}>
       <h1 className="page-title">Time Tracking</h1>
@@ -516,19 +522,27 @@ const TimeTrackingView = ({ userName, shiftLogs }) => (
     </div>
 
     <div className="time-tracking-layout">
-      <div className="panel timer-panel" style={{borderRadius: '24px'}}>
-        <div style={{fontSize: '0.85rem', fontWeight: 700, opacity: 0.8, letterSpacing: '0.1em'}}>ACTIVE SHIFT</div>
-        <div className="timer-display">00:00:00</div>
+      <div className="panel timer-panel" style={{borderRadius: '24px', background: isClockedIn ? 'var(--secondary)' : 'var(--primary)'}}>
+        <div style={{fontSize: '0.85rem', fontWeight: 700, opacity: 0.8, letterSpacing: '0.1em'}}>
+          {isClockedIn ? 'SHIFT IN PROGRESS' : 'READY TO START'}
+        </div>
+        <div className="timer-display">{isClockedIn ? '00:15:24' : '00:00:00'}</div>
         <div style={{display: 'flex', gap: '1rem', marginTop: '1rem'}}>
-          <button className="timer-btn start"><Play size={20} /> Start Shift</button>
+          <button 
+            className={`timer-btn ${isClockedIn ? 'stop' : 'start'}`}
+            onClick={onClockAction}
+          >
+            {isClockedIn ? <StopCircle size={20} /> : <Play size={20} />}
+            {isClockedIn ? 'Stop Shift' : 'Start Shift'}
+          </button>
         </div>
         <div style={{marginTop: '2rem', width: '100%', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.5rem'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '0.5rem'}}>
             <span style={{opacity: 0.7}}>Today's Total</span>
-            <span style={{fontWeight: 700}}>00h 00m</span>
+            <span style={{fontWeight: 700}}>{isClockedIn ? '0h 15m' : '0h 00m'}</span>
           </div>
           <div style={{height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px'}}>
-            <div style={{width: '0%', height: '100%', background: '#10b981', borderRadius: '3px'}}></div>
+            <div style={{width: isClockedIn ? '5%' : '0%', height: '100%', background: '#10b981', borderRadius: '3px', transition: 'width 0.5s ease'}}></div>
           </div>
         </div>
       </div>
@@ -773,6 +787,34 @@ function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [toasts, setToasts] = useState([]);
+  const [isClockedIn, setIsClockedIn] = useState(false);
+
+  const handleClockAction = async () => {
+    const newState = !isClockedIn;
+    setIsClockedIn(newState);
+    
+    if (newState) {
+      // Automark full attendance for today (May 11)
+      const todayId = 'may-11';
+      setAttendanceData(prev => prev.map(row => 
+        row.id === todayId ? { ...row, s1: 'present', s2: 'present', s3: 'present' } : row
+      ));
+
+      // Persist to DB if logged in
+      if (userData && userData.id) {
+        try {
+          await supabase.from('attendance_logs')
+            .update({ s1: 'present', s2: 'present', s3: 'present' })
+            .eq('id', todayId);
+        } catch (err) {
+          console.error('Failed to sync auto-attendance:', err);
+        }
+      }
+      showToast('Shift started & Attendance marked!', 'success');
+    } else {
+      showToast('Shift ended!', 'info');
+    }
+  };
 
   const showToast = (message, type = 'info') => {
     const id = Math.random().toString(36).substr(2, 9);
@@ -1078,9 +1120,16 @@ function App() {
           <button className="mobile-close-btn" onClick={closeSidebar}><X size={20} /></button>
         </div>
 
-        <button className="clock-in-btn">
-          <Clock size={20} />
-          <span>Clock In</span>
+        <button 
+          className={`clock-in-btn ${isClockedIn ? 'clocked-in' : ''}`}
+          onClick={handleClockAction}
+          style={{
+            background: isClockedIn ? 'var(--error)' : 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
+            boxShadow: isClockedIn ? '0 4px 12px rgba(239, 68, 68, 0.3)' : '0 4px 12px rgba(99, 102, 241, 0.3)'
+          }}
+        >
+          {isClockedIn ? <StopCircle size={20} /> : <Clock size={20} />}
+          <span>{isClockedIn ? 'Mark Leave' : 'Mark Full Day'}</span>
         </button>
         
         <nav className="nav-menu">
@@ -1156,7 +1205,7 @@ function App() {
               currentScore={currentScore}
             />
           )}
-          {activeTab === 'time-tracking' && <TimeTrackingView userName={userData?.name} shiftLogs={shiftLogs} />}
+          {activeTab === 'time-tracking' && <TimeTrackingView userName={userData?.name} shiftLogs={shiftLogs} isClockedIn={isClockedIn} onClockAction={handleClockAction} />}
           {activeTab === 'leave-requests' && <LeaveRequestsView userName={userData?.name} leaveBalances={leaveBalances} leaveRequests={leaveRequests} />}
           {activeTab === 'documents' && <DocumentsView userName={userData?.name} documents={documents} />}
           {activeTab === 'promotions' && <PromotionsView />}
